@@ -28,4 +28,12 @@ public abstract class Move {
             this.attackedPiece = attackedPiece;
         }
     }
+
+    public int getDestinationCoordinate() {
+        return this.destinationCoordinate;
+    }
+
+    public Board execute() {
+        return null;
+    }
 }
