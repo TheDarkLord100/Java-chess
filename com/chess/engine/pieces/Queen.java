@@ -26,8 +26,8 @@ public class Queen extends Piece{
             int candidateDestinationCoordinate = this.piecePosition;
             while (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                 candidateDestinationCoordinate += candidateCoordinateOffset;
-                if (isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)
-                        || isEighthColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
+                if (isFirstColumnExclusion(this.piecePosition, candidateCoordinateOffset)
+                        || isEighthColumnExclusion(this.piecePosition, candidateCoordinateOffset)) {
                     break;
                 }
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
@@ -57,5 +57,10 @@ public class Queen extends Piece{
     private static boolean isEighthColumnExclusion(final int currentPosition, final int candidateOffset) {
         return BoardUtils.EIGHTH_COLUMN[currentPosition]
                 && (candidateOffset == 1 || candidateOffset == -7 || candidateOffset == 9);
+    }
+
+    @Override
+    public String toString() {
+        return PieceType.QUEEN.toString();
     }
 }

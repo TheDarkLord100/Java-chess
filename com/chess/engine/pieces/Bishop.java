@@ -30,8 +30,8 @@ public class Bishop extends Piece {
             while (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                 candidateDestinationCoordinate += candidateCoordinateOffset;
 
-                if (isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)
-                        || isEighthColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
+                if (isFirstColumnExclusion(this.piecePosition, candidateCoordinateOffset)
+                        || isEighthColumnExclusion(this.piecePosition, candidateCoordinateOffset)) {
                     break;
                 }
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
@@ -54,6 +54,10 @@ public class Bishop extends Piece {
         return legalMoves;
     }
 
+    @Override
+    public String toString() {
+        return PieceType.BISHOP.toString();
+    }
 
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset) {
         return BoardUtils.FIRST_COLUMN[currentPosition]

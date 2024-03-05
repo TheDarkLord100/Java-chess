@@ -27,8 +27,8 @@ public class Rook extends Piece {
             int candidateDestinationCoordinate = this.piecePosition;
             while (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                 candidateDestinationCoordinate += candidateCoordinateOffset;
-                if (isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)
-                        || isEighthColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
+                if (isFirstColumnExclusion(this.piecePosition, candidateCoordinateOffset)
+                        || isEighthColumnExclusion(this.piecePosition, candidateCoordinateOffset)) {
                     break;
                 }
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
@@ -60,4 +60,8 @@ public class Rook extends Piece {
                 && (candidateOffset == 1);
     }
 
+    @Override
+    public String toString() {
+        return PieceType.ROOK.toString();
+    }
 }
