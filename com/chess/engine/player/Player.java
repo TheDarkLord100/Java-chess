@@ -18,15 +18,16 @@ public abstract class Player {
     private final boolean isInCheck;
 
     Player(final Board board,
-            final Collection<Move> legalMoves,
+            Collection<Move> legalMoves,
             final Collection<Move> opponentMoves) {
         this.board = board;
         this.playerKing = establishKing();
+        legalMoves.addAll(calculateKingCastles(legalMoves, opponentMoves));
         this.legalMoves = legalMoves;
         this.isInCheck = !Player.calculateAttacksOnTile(this.playerKing.getPiecePosition(), opponentMoves).isEmpty();
     }
 
-    private static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> opponentMoves) {
+    protected static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> opponentMoves) {
         final List<Move> attackMoves = new ArrayList<>();
         for (final Move move : opponentMoves) {
             if (piecePosition == move.getDestinationCoordinate()) {
@@ -50,6 +51,9 @@ public abstract class Player {
     public abstract Alliance getAlliance();
 
     public abstract Player getOpponent();
+
+    public abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegals,
+            Collection<Move> opponentsLegals);
 
     public King getPlayerKing() {
         return this.playerKing;
@@ -94,11 +98,13 @@ public abstract class Player {
             return new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
         }
         final Board transitionBoard = move.execute();
-        final Collection<Move> kingAttacks = Player.calculateAttacksOnTile(transitionBoard.currentPlayer().getOpponent().getPlayerKing().getPiecePosition(),
+        final Collection<Move> kingAttacks = Player.calculateAttacksOnTile(
+                transitionBoard.currentPlayer().getOpponent().getPlayerKing().getPiecePosition(),
                 transitionBoard.currentPlayer().getLegalMoves());
         if (!kingAttacks.isEmpty()) {
             return new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
         }
         return new MoveTransition(transitionBoard, move, MoveStatus.DONE);
     }
+
 }

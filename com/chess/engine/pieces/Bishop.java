@@ -1,8 +1,6 @@
 package com.chess.engine.pieces;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
@@ -67,5 +65,10 @@ public class Bishop extends Piece {
     private static boolean isEighthColumnExclusion(final int currentPosition, final int candidateOffset) {
         return BoardUtils.EIGHTH_COLUMN[currentPosition]
                 && (candidateOffset == -7 || candidateOffset == 9);
+    }
+
+    @Override
+    public Bishop movePiece(Move majorMove) {
+        return new Bishop(majorMove.getDestinationCoordinate(), majorMove.getMovedPiece().getPieceAlliance());
     }
 }

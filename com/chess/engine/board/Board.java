@@ -1,11 +1,6 @@
 package com.chess.engine.board;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.pieces.*;
@@ -33,7 +28,7 @@ public class Board {
 
         this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-        this.currentPlayer = null;
+        this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer);
     }
 
     @Override
@@ -89,7 +84,6 @@ public class Board {
         }
         return activePieces;
     }
-    
 
     public Tile getTile(int tileCoordinate) {
         return gameBoard.get(tileCoordinate);
@@ -145,10 +139,18 @@ public class Board {
         return builder.build();
     }
 
+    public Iterable<Move> getAllLegalMoves() {
+        List<Move> allLegalMoves = new ArrayList<>();
+        allLegalMoves.addAll(this.whitePlayer.getLegalMoves());
+        allLegalMoves.addAll(this.blackPlayer.getLegalMoves());
+        return allLegalMoves;
+    }
+
     public static class Builder {
 
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;
+        private Pawn enPassantPawn;
 
         public Builder() {
             boardConfig = new HashMap<>();
@@ -166,6 +168,10 @@ public class Board {
 
         public Board build() {
             return new Board(this);
+        }
+
+        public void setEnPassantPawn(Pawn pawn) {
+            this.enPassantPawn = pawn;
         }
     }
 }

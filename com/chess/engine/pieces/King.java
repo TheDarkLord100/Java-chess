@@ -1,13 +1,12 @@
 package com.chess.engine.pieces;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
+import com.chess.engine.board.Move.MajorMove;
 
 public class King extends Piece{
 
@@ -58,5 +57,8 @@ public class King extends Piece{
     private static boolean isEighthColumnExclusion(final int currentPosition, final int candidateOffset) {
         return BoardUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset == 1 || candidateOffset == 9);
     }
-    
+    @Override
+    public King movePiece(Move majorMove) {
+        return new King(majorMove.getDestinationCoordinate(), majorMove.getMovedPiece().getPieceAlliance());
+    }
 }
